@@ -7,7 +7,9 @@ const logger = require('morgan'),
     mongoose = require('mongoose'),
     dotenv = require('dotenv').config(),
     BadRequestError = require('./src/shared/errors/BadRequestError'),
-    tokenAuthorize = require('./src/shared/tokenAuthorize');
+    tokenAuthorize = require('./src/shared/tokenAuthorize'),
+    Subscription = require('./src/subscription/subscription'),
+    helper = require('./src/shared/helper');
 
 const app = express();
 
@@ -57,15 +59,14 @@ server.listen(port, (err) => {
 });
 
 const sendMessage = (client, user) => {
-    const milliseconds = getRandomNumber(10, 30) * 1000;
+    const milliseconds = helper.getRandomNumber(10, 30) * 1000;
     setTimeout(() => {
         if (!client.connected)
             return;
-        client.emit('notification', user.id);
+
+        Subscription.getRandomDocument(user.id, function (sub) {
+            client.emit('notification', '"' + sub.name + '" is now available!');
+        });
         sendMessage(client, user);
     }, milliseconds);
-}
-
-const getRandomNumber = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1) + max);
 }

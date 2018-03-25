@@ -4,7 +4,7 @@ const Subscription = require('./subscription');
 module.exports.get = async (req, res, next) => {
     let subscriptions
     try {
-        subscriptions = await Subscription.find();
+        subscriptions = await Subscription.find({user: req.user.id});
     } catch (err) {
         next(err);
     }
@@ -33,6 +33,7 @@ module.exports.add = async (req, res, next) => {
         make: subscription.make,
         model: subscription.model,
         trim: subscription.trim,
+        dateCreated: new Date(),
         active: true,
         user: req.user.id
     });
