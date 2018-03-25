@@ -19,6 +19,7 @@
     "lodash": "^4.17.5",
     "mongoose": "^5.0.10",
     "morgan": "^1.9.0",
-    "nodemon": "^1.17.2"
+    "nodemon": "^1.17.2",
+    "socket.io": "^2.0.4"
   }
 }

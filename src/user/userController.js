@@ -26,11 +26,17 @@ module.exports.register = async (req, res, next) => {
     });
 
     try {
+        const valid = await newUser.validate();
         const result = await newUser.save();
         delete result.password;
         return res.json(result);
-    } catch (ex) {
-        next(ex);
+    } 
+    catch (err) {
+        if(err.name ===  'ValidationError') {
+            next(new BadRequestError(err));
+            return;
+        } 
+        next(err);
     }
 }
 

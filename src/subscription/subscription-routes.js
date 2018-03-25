@@ -4,8 +4,8 @@ const express = require('express'),
 
 const app = express.Router();
 
-app.get('/',tokenAuthorize, subscriptionController.get);
-app.post('/',tokenAuthorize, subscriptionController.add);
-// app.post('/toggleSubscription',tokenAuthorize, subscriptionController.toggleSubscription);
+app.get('/', tokenAuthorize, subscriptionController.get);
+app.post('/', tokenAuthorize, subscriptionController.add);
+app.post('/toggle/:id', tokenAuthorize, subscriptionController.toggle);
 app.use('/api/subscription', app);
 module.exports = app;

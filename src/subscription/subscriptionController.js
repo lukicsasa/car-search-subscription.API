@@ -5,7 +5,7 @@ module.exports.get = async (req, res, next) => {
     let subscriptions
     try {
         subscriptions = await Subscription.find();
-    } catch(err){
+    } catch (err) {
         next(err);
     }
 
@@ -22,7 +22,7 @@ module.exports.add = async (req, res, next) => {
         next(ex);
         return;
     }
-    if(subscriptions > 0) {
+    if (subscriptions > 0) {
         next(new BadRequestError('Name is already  in use!'));
         return;
     }
@@ -39,6 +39,29 @@ module.exports.add = async (req, res, next) => {
 
     try {
         const result = await newSubscription.save();
+        return res.json(result);
+    } catch (ex) {
+        next(ex);
+    }
+}
+
+module.exports.toggle = async (req, res, next) => {
+    let subscription;
+    try {
+        subscription = await Subscription.findOne({ _id: req.params.id });
+    } catch (ex) {
+        next(ex);
+        return;
+    }
+    if (!subscription) {
+        next(new BadRequestError('Doesn\'t exist!'));
+        return;
+    }
+
+    subscription.active = !subscription.active;
+
+    try {
+        const result = await subscription.save();
         return res.json(result);
     } catch (ex) {
         next(ex);
