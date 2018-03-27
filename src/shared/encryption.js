@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 exports.cryptPassword = async (password) => {
     try {
@@ -17,5 +17,4 @@ exports.comparePassword = async (plainPass, hashPass) => {
     } catch (err) {
         throw err;
     }
-
 };

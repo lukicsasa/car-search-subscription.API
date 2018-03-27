@@ -1,15 +1,12 @@
-const logger = require('morgan'),
-    errorHandler = require('errorhandler'),
-    cors = require('cors'),
-    http = require('http'),
-    express = require('express'),
-    bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
-    dotenv = require('dotenv').config(),
-    BadRequestError = require('./src/shared/errors/BadRequestError'),
-    tokenAuthorize = require('./src/shared/tokenAuthorize'),
-    Subscription = require('./src/subscription/subscription'),
-    helper = require('./src/shared/helper');
+const logger = require('morgan');
+const errorHandler = require('errorhandler');
+const cors = require('cors');
+const http = require('http');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv').config();
+const createSocket = require('./createSocket');
 
 const app = express();
 
@@ -26,7 +23,11 @@ app.use(require('./src/user/user-routes'));
 app.use(require('./src/subscription/subscription-routes'));
 
 app.use(function (err, req, res, next) {
-    res.status(err.status || 500).json({ message: err.message });
+    if (err) {
+        res.status(err.status || 500).json({ err: err.message });
+    } else {
+        next();
+    }
 })
 
 mongoose.connect(process.env.DB_CONNECTION, (err) => {
@@ -39,34 +40,12 @@ mongoose.connect(process.env.DB_CONNECTION, (err) => {
 const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 
-var socket = require('socket.io')(server);
-let users = [];
-socket.on('connection', function (client) {
-    client.on('authenticate', function (data) {
-        const connectedUser = { user: data.user, sid: client.id };
-        if (users.indexOf(connectedUser) == -1) {
-            users.push(connectedUser);
-        }
-        sendMessage(client, data.user);
-    });
-    client.on('disconnect', function () {
-        users = users.filter((x) => { return x.sid != client.id });
-    });
-});
-
+createSocket(server);
 server.listen(port, (err) => {
+    if (err) {
+        console.error(err);
+        process.exit(1);
+        return;
+    }
     console.log('listening on port: ' + port);
 });
-
-const sendMessage = (client, user) => {
-    const milliseconds = helper.getRandomNumber(10, 30) * 1000;
-    setTimeout(() => {
-        if (!client.connected)
-            return;
-
-        Subscription.getRandomDocument(user.id, function (sub) {
-            client.emit('notification', '"' + sub.name + '" is now available!');
-        });
-        sendMessage(client, user);
-    }, milliseconds);
-}

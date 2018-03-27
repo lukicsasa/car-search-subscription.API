@@ -8,8 +8,8 @@ const subscriptionSchema = new Schema({
     make: String,
     model: String,
     trim: String,
-    active: Boolean,
-    dateCreated: Date,
+    active: { type: Boolean, required: [true, 'Active is required!'], default: true },
+    dateCreated: { type: Date, required: [true, 'DateCreated is required!'], default: new Date()},
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: [true, 'User is required'] }
 });
     
@@ -25,7 +25,6 @@ subscriptionSchema.statics.getRandomDocument = function (userId, callback) {
 }
 
 const Subscription = mongoose.model('Subscription', subscriptionSchema);
-
 module.exports = Subscription;
 
 
