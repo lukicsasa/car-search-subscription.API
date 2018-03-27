@@ -7,7 +7,7 @@ module.exports.register = async (req, res, next) => {
     const user = req.body;
     try {
         const users = await User.count({ username: user.username });
-        if (users > 0) {
+        if (users.length) {
             next(new BadRequestError('Username already exists!'));
             return;
         }

@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'dev') {
 app.use(require('./src/user/user-routes'));
 app.use(require('./src/subscription/subscription-routes'));
 
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
     if (err) {
         res.status(err.status || 500).json({ err: err.message });
     } else {
