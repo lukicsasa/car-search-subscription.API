@@ -11,12 +11,10 @@ module.exports.register = async (req, res, next) => {
             next(new BadRequestError('Username already exists!'));
             return;
         }
-
-        const password = await encryption.cryptPassword(user.password);
         const newUser = new User({
             name: user.name,
             username: user.username,
-            password: password
+            password: user.password
         });
         const result = await newUser.save();
         delete result.password;

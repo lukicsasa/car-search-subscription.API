@@ -1,7 +1,7 @@
 const helper = require('./src/shared/helper');
 const Subscription = require('./src/subscription/subscription');
 
-const users = [];
+let users = [];
 module.exports = (server) => {
     var socket = require('socket.io')(server);
     socket.on('connection', function (client) {
@@ -27,7 +27,7 @@ const sendMessage = (client, user) => {
         if (!client.connected)
             return;
 
-        Subscription.getRandomDocument(user.id, function (sub) {
+        Subscription.getRandomDocument(user.id, (sub) => {
             if (sub)
                 client.emit('notification', '"' + sub.name + '" is now available!');
         });

@@ -1,0 +1,62 @@
+[
+    {
+        "manufacturer": "Porsche",
+        "model": "911",
+        "trim": "Carrera",
+        "year": 2018
+    },
+    {
+        "manufacturer": "Porsche",
+        "model": "Panamera",
+        "trim": "4S",
+        "year": 2014
+    },
+    {
+        "manufacturer": "Honda",
+        "model": "Civic",
+        "trim": "R",
+        "year": 2015
+    },
+    {
+        "manufacturer": "Audi",
+        "model": "R6",
+        "trim": "Spyder",
+        "year": 2014
+    },
+    {
+        "manufacturer": "Mercedes",
+        "model": "G600",
+        "trim": "Brabus",
+        "year": 2012
+    },
+    {
+        "manufacturer": "Mercedes",
+        "model": "CLS",
+        "trim": "AMG",
+        "year": 2016
+    },
+    {
+        "manufacturer": "Fiat",
+        "model": "Punto",
+        "trim": "Sporrting",
+        "year": 2012
+    },
+    {
+        "manufacturer": "BMW",
+        "model": "6",
+        "trim": "Alpina",
+        "year": 2017
+    },
+    {
+        "manufacturer": "Mini Cooper",
+        "model": "Clubman",
+        "trim": "D",
+        "year": 2009
+    },
+    {
+        "manufacturer": "Mini Cooper",
+        "model": "Clubman",
+        "trim": "S",
+        "year": 2009
+    }
+]
