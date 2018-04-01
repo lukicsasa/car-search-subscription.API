@@ -21,6 +21,7 @@ if (process.env.NODE_ENV === 'dev') {
 
 app.use(require('./src/user/user-routes'));
 app.use(require('./src/subscription/subscription-routes'));
+app.use(require('./src/car/car-routes'));
 
 app.use((err, req, res, next) => {
     if (err) {
