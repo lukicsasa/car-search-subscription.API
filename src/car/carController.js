@@ -5,12 +5,7 @@ module.exports.filter = async (req, res, next) => {
     const year = req.query.year;
     const make = req.query.make;
     const model = req.query.model;
-    const result = {
-        years: [],
-        makes: [],
-        models: [],
-        trims: []
-    }
+    const result = {};
     try {
         const search = {};
         if (year) search.year = year;

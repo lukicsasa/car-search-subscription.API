@@ -18,7 +18,6 @@ module.exports.add = async (req, res, next) => {
             next(new BadRequestError('Name is already  in use!'));
             return;
         }
-
         const newSubscription = new Subscription({
             name: subscription.name,
             year: subscription.year,
@@ -48,7 +47,7 @@ module.exports.toggle = async (req, res, next) => {
         }
         subscription.active = !subscription.active;
         const result = await subscription.save();
-        
+
         return res.json(result);
     } catch (ex) {
         next(ex);

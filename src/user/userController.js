@@ -20,7 +20,7 @@ module.exports.register = async (req, res, next) => {
         delete result.password;
 
         return res.json(result);
-    } catch (ex) {
+    } catch (err) {
         if (err.name === 'ValidationError') {
             next(new BadRequestError(err));
             return;
